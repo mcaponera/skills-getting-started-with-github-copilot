@@ -85,23 +85,29 @@ def root():
 
 @app.get("/activities")
 def get_activities():
-    return activities
+    return {
+        name: {
+            "description": details["description"],
+            "schedule": details["schedule"],
+            "participants": details["participants"]
+        }
+        for name, details in activities.items()
+    }
 
 
 @app.post("/activities/{activity_name}/signup")
-# validete student is not already signed up
-def validate_student_not_signed_up(activity_name: str, email: str):
-    """Validate that a student is not already signed up for an activity"""
-    if email in activities[activity_name]["participants"]:
-        raise HTTPException(status_code=400, detail="Student already signed up")
 def signup_for_activity(activity_name: str, email: str):
     """Sign up a student for an activity"""
     # Validate activity exists
     if activity_name not in activities:
         raise HTTPException(status_code=404, detail="Activity not found")
 
-    # Get the specificy activity
+    # Get the activity
     activity = activities[activity_name]
+
+    # Validate student is not already signed up
+    if email in activity["participants"]:
+        raise HTTPException(status_code=400, detail="Student is already signed up")
 
     # Add student
     activity["participants"].append(email)

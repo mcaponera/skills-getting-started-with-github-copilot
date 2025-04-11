@@ -19,6 +19,17 @@
           <!-- Activities will be loaded here -->
           <p>Loading activities...</p>
         </div>
+        <script id="activity-card-template" type="text/template">
+          <div class="activity-card">
+            <h4>{{activityName}}</h4>
+            <p>{{description}}</p>
+            <p><strong>Schedule:</strong> {{schedule}}</p>
+            <p><strong>Participants:</strong></p>
+            <ul class="participants-list">
+              {{participants}}
+            </ul>
+          </div>
+        </script>
       </section>
 
       <section id="signup-container">
